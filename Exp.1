@@ -1,0 +1,199 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node 
+{
+    int Element;
+    struct node *Next;
+};
+typedef struct node Node;
+
+int IsEmpty(Node *Head);
+void InsertBeg(Node *Head, int e);
+void InsertLast(Node *Head, int e);
+void InsertMid(Node *Head, int p, int e);
+void DeleteBeg(Node *Head);
+void DeleteEnd(Node *Head);
+void DeleteMid(Node *Head, int e);
+void Display(Node *Head);
+
+int main()
+{
+    Node *Head =malloc(sizeof(Node));
+    Head->Next = NULL;
+
+    int ch, e, p;
+    
+    printf("1. Insert Beg \n2. Insert Middle \n3. Insert End");
+    printf("\n4. Delete Beg \n5. Delete Middle \n6. Delete End");
+    printf("\n7. Display \n8. Exit\n");
+    
+    printf("Enter your choice: ");
+    scanf("%d", &ch);
+    
+    while (ch != 8) 
+    {
+        switch(ch) 
+        {
+            case 1:
+                printf("Enter the element: ");
+                scanf("%d", &e);
+                InsertBeg(Head, e);
+                break;
+            case 2:
+                printf("Enter the position element: ");
+                scanf("%d", &p);
+                printf("Enter the element: ");
+                scanf("%d", &e);
+                InsertMid(Head, p, e);
+                break;
+            case 3:
+                printf("Enter the element: ");
+                scanf("%d", &e);
+                InsertLast(Head, e);
+                break;
+            case 4:
+                DeleteBeg(Head);
+                break;
+            case 5:
+                printf("Enter the element: ");
+                scanf("%d", &e);
+                DeleteMid(Head, e);
+                break;
+            case 6:
+                DeleteEnd(Head);
+                break;
+            case 7:
+                Display(Head);
+                break;
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+        
+        printf("Enter your choice: ");
+        scanf("%d", &ch);
+    }
+
+    return 0;
+}
+int IsEmpty(Node *Head) 
+{
+    return Head->Next == NULL;
+}
+void InsertBeg(Node *Head, int e) 
+{
+    Node *NewNode =malloc(sizeof(Node));
+    NewNode->Element = e;
+    NewNode->Next = Head->Next;
+    Head->Next = NewNode;
+}
+void InsertLast(Node *Head, int e)
+{
+    Node *NewNode = malloc(sizeof(Node));
+    NewNode->Element = e;
+    NewNode->Next = NULL;
+    Node *Position = Head;
+    while (Position->Next != NULL)
+    {
+        Position = Position->Next;
+    }
+    Position->Next = NewNode;
+}
+void InsertMid(Node *Head, int p, int e)
+{
+    Node *NewNode = (Node *)malloc(sizeof(Node));
+    NewNode->Element = e;
+    Node *Position = Head->Next;
+    while (Position != NULL && Position->Element != p) 
+    {
+        Position = Position->Next;
+    }
+    if (Position != NULL) 
+    {
+        NewNode->Next = Position->Next;
+        Position->Next = NewNode;
+    } 
+    else 
+    {
+        printf("Position element not found.\n");
+        free(NewNode);
+    }
+}
+void DeleteBeg(Node *Head)
+{
+    if (!IsEmpty(Head))
+    {
+        Node *TempNode = Head->Next;
+        Head->Next = TempNode->Next;
+        printf("The deleted item is %d\n", TempNode->Element);
+        free(TempNode);
+    }
+    else
+    {
+        printf("List is empty...!\n");
+    }
+}
+void DeleteEnd(Node *Head) 
+{
+    if (!IsEmpty(Head)) 
+    {
+        Node *Position = Head;
+        while (Position->Next->Next != NULL) 
+        {
+            Position = Position->Next;
+        }
+        Node *TempNode = Position->Next;
+        Position->Next = NULL;
+        printf("The deleted item is %d\n", TempNode->Element);
+        free(TempNode);
+    } 
+    else 
+    {
+        printf("List is empty...!\n");
+    }
+}
+void DeleteMid(Node *Head, int e) 
+{
+    if (!IsEmpty(Head)) 
+    {
+        Node *Position = Head;
+        while (Position->Next != NULL && Position->Next->Element != e) 
+        {
+            Position = Position->Next;
+        }
+        if (Position->Next != NULL) 
+        {
+            Node *TempNode = Position->Next;
+            Position->Next = TempNode->Next;
+            printf("The deleted item is %d\n", TempNode->Element);
+            free(TempNode);
+        } 
+        else 
+        {
+            printf("Element not found.\n");
+        }
+    } 
+    else 
+    {
+        printf("List is empty...!\n");
+    }
+}
+void Display(Node *Head) 
+{
+    if (!IsEmpty(Head))
+    {
+        Node *Position = Head->Next;
+        printf("Elements in the list: ");
+        while (Position != NULL) 
+        {
+            printf("%d\t", Position->Element);
+            Position = Position->Next;
+        }
+        printf("\n");
+    } 
+    else
+    {
+        printf("List is empty...!\n");
+    }
+}
