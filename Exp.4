@@ -1,0 +1,235 @@
+Array implementation of stack 
+
+
+#include <stdio.h>
+#define MAX 20
+
+int Stack[MAX];
+int top = -1;
+int IsFull();
+int IsEmpty();
+void Push(int ele);
+void Pop();
+void Top();
+void Display();
+
+int main() {
+    int ch, e;
+
+    printf("Stack Implementation\n");
+    printf("1.PUSH\n2.POP\n3.TOP\n4.DISPLAY\n5.EXIT\n");
+
+    printf("\nEnter your choice: ");
+    scanf("%d", &ch);
+
+    while (ch != 5)
+    {
+        switch(ch)
+        {
+            case 1:
+                printf("Enter the element to push: ");
+                scanf("%d", &e);
+                Push(e);
+                break;
+            case 2:
+                Pop();
+                break;
+            case 3:
+                Top();
+                break;
+            case 4:
+                Display();
+                break;
+            default:
+                printf("Invalid choice\n");
+        }
+        printf("\nEnter your choice: ");
+        scanf("%d", &ch);
+    }
+
+    printf("Exiting...\n");
+    return 0;
+}
+
+int IsFull()
+{
+    return top == MAX - 1;
+}
+
+int IsEmpty()
+{
+    return top == -1;
+}
+
+void Push(int ele)
+{
+    if (IsFull())
+        printf("Stack Overflow...\n");
+    else
+    {
+        top=top+1;
+        Stack[top] = ele;
+        printf("Pushed %d onto the stack\n", ele);
+    }
+}
+
+void Pop()
+{
+    if (IsEmpty())
+    {
+        printf("Stack Underflow..\n");
+    }
+    else 
+    {
+        printf("Popped %d from the stack\n", Stack[top]);
+        top--;
+    }
+}
+
+void Top()
+{
+    if (IsEmpty())
+    {
+        printf("Stack Underflow..\n");
+    }
+    else
+    {
+        printf("Top element: %d\n", Stack[top]);
+    }
+}
+
+void Display()
+{
+    if (IsEmpty())
+    {
+        printf("Stack Underflow..\n");
+    }
+    else
+    {
+        printf("Stack elements:\n");
+        for (int i = top; i >= 0; i--)
+            printf("%d\n", Stack[i]);
+    }
+}
+
+
+
+
+
+Linkedlist implementation of stack
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node 
+{
+    int Element;
+    struct node *Next;
+};
+typedef struct node Stack;
+Stack *List = NULL;
+
+int Isempty();
+void Push(int e);
+void Pop();
+void Top();
+void Display();
+
+int main() 
+{
+    int ch, e;
+    
+    printf("1.PUSH\n2.POP\n3.TOP\n4.DISPLAY\n5.EXIT\n");
+    printf("Enter your choice: ");
+    scanf("%d", &ch);
+    
+    while (ch != 5)
+    {
+        switch(ch)
+        {
+            case 1:
+                printf("Enter the element: ");
+                scanf("%d", &e);
+                Push(e);
+                break;
+            case 2:
+                Pop();
+                break;
+            case 3:
+                Top();
+                break;
+            case 4:
+                Display();
+                break;
+            default:
+                printf("Invalid choice.\n");
+        }
+        
+        printf("Enter your choice: ");
+        scanf("%d", &ch);
+    }
+    
+    printf("Exiting...\n");
+    
+    return 0;
+}
+int IsEmpty()
+{
+    return (List == NULL);
+}
+
+void Push(int e)
+{
+    Stack *NewNode = (Stack *)malloc(sizeof(Stack));
+    NewNode->Element = e;
+    NewNode->Next = List;
+    List = NewNode;
+}
+
+void Pop() 
+{
+    if (IsEmpty()) 
+    {
+        printf("Stack is Underflow...\n");
+    } 
+    else 
+    {
+        Stack *TempNode = List;
+        List = List->Next;
+        printf("Popped element: %d\n", TempNode->Element);
+        free(TempNode);
+    }
+}
+
+void Top() 
+{
+    if (IsEmpty()) 
+    {
+        printf("Stack is Underflow...\n");
+    } 
+    else
+    {
+        printf("Top element: %d\n", List->Element);
+    }
+}
+
+void Display()
+{
+    if (IsEmpty())
+    {
+        printf("Stack is Empty.\n");
+    } 
+    else
+    {
+        printf("Stack elements:\n");
+        Stack *Position = List;
+        while (Position != NULL) 
+        {
+            printf("%d\t", Position->Element);
+            Position = Position->Next;
+        }
+        printf("\n");
+    }
+}
